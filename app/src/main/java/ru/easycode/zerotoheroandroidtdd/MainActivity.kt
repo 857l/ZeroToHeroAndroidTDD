@@ -8,8 +8,8 @@ import android.widget.TextView
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var textView : TextView
-    private lateinit var linerLayout : LinearLayout
+    private lateinit var textView: TextView
+    private lateinit var linerLayout: LinearLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -19,19 +19,21 @@ class MainActivity : AppCompatActivity() {
         textView = findViewById<TextView>(R.id.titleTextView)
         val button = findViewById<Button>(R.id.removeButton)
 
-        button.setOnClickListener{
+        button.setOnClickListener {
             linerLayout.removeView(textView)
         }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putBoolean(KEY, false)
+        if (findViewById<TextView>(R.id.titleTextView) == null) {
+            outState.putBoolean(KEY, false)
+        }
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
-        if (!savedInstanceState.getBoolean(KEY)){
+        if (!savedInstanceState.getBoolean(KEY)) {
             linerLayout.removeView(textView)
         }
     }
