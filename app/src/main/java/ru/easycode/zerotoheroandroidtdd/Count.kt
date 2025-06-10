@@ -13,7 +13,8 @@ interface Count {
         }
 
         override fun increment(number: String): String {
-            val num = number.toIntOrNull() ?: throw IllegalArgumentException("Invalid number: $number")
+            val num =
+                number.toIntOrNull() ?: throw IllegalArgumentException("Invalid number: $number")
             return (num + step).toString()
         }
 
