@@ -4,12 +4,14 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
+import java.io.Serializable
 
 class MainActivity : AppCompatActivity() {
 
     private val count = Count.Base(2, 4)
     private lateinit var textView: TextView
     private lateinit var button: Button
+    private var uiState: UiState = UiState.Base("0")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -19,26 +21,24 @@ class MainActivity : AppCompatActivity() {
         button = findViewById<Button>(R.id.incrementButton)
 
         button.setOnClickListener {
-            val uiState: UiState = count.increment(textView.text.toString())
+            uiState = count.increment(textView.text.toString())
             uiState.apply(textView, button)
         }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putString(KEYTEXT, textView.text.toString())
-        outState.putBoolean(KEYBUTTON, button.isEnabled)
+        outState.putSerializable(KEY, uiState)
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
-        textView.text = savedInstanceState.getString(KEYTEXT)
-        button.isEnabled = savedInstanceState.getBoolean(KEYBUTTON)
+        uiState = (savedInstanceState.getSerializable(KEY) as UiState)
+        uiState.apply(textView, button)
     }
 
     companion object {
-        private const val KEYTEXT = "textValue"
-        private const val KEYBUTTON = "buttonEnable"
+        private const val KEY = "KEY"
     }
 }
 
@@ -72,7 +72,7 @@ interface Count {
 
 }
 
-interface UiState {
+interface UiState : Serializable {
 
     fun apply(textView: TextView, button: Button)
 
