@@ -29,11 +29,11 @@ interface Count {
         }
 
         override fun initial(number: String): UiState {
-            if (number.toInt() == max)
-                return UiState.Max(number)
+            return if (number.toInt() == max)
+                UiState.Max(number)
             else if (number.toInt() == min)
-                return UiState.Min(number)
-            else return UiState.Base(number)
+                UiState.Min(number)
+            else UiState.Base(number)
         }
 
         override fun increment(number: String): UiState {
