@@ -10,6 +10,8 @@ interface Count {
         init {
             if (max <= 0)
                 throw IllegalStateException("max should be positive, but was $max")
+            if (min <= 0)
+                throw IllegalStateException("min should be positive, but was $min")
             if (max < min)
                 throw IllegalStateException("max should be more than min")
             if (max < step)
