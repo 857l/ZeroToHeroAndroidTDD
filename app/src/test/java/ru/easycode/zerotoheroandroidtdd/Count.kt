@@ -10,8 +10,6 @@ interface Count {
         init {
             if (max <= 0)
                 throw IllegalStateException("max should be positive, but was $max")
-            if (min <= 0)
-                throw IllegalStateException("min should be positive, but was $min")
             if (max < min)
                 throw IllegalStateException("max should be more than min")
             if (max < step)
@@ -33,9 +31,9 @@ interface Count {
         override fun initial(number: String): UiState {
             if (number.toInt() == max)
                 return UiState.Max(number)
-            if (number.toInt() == min)
+            else if (number.toInt() == min)
                 return UiState.Min(number)
-            return UiState.Base(number)
+            else return UiState.Base(number)
         }
 
         override fun increment(number: String): UiState {
