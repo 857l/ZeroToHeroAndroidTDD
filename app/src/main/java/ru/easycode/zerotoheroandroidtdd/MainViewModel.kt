@@ -12,6 +12,8 @@ class MainViewModel(
 
     private val viewModelScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
 
+    fun livaData() = liveDataWrapper.liveData()
+
     fun load() {
         liveDataWrapper.update(UiState.ShowProgress)
         viewModelScope.launch {
