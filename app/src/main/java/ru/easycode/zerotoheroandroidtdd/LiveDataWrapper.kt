@@ -8,7 +8,7 @@ interface LiveDataWrapper {
     fun update(value: UiState)
     fun liveData(): LiveData<UiState>
 
-    class Base : LiveDataWrapper{
+    class Base : LiveDataWrapper {
         private val liveData = MutableLiveData<UiState>()
 
         override fun update(value: UiState) {
