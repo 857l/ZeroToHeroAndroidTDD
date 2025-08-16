@@ -47,11 +47,11 @@ task/019-no-connection solution on YouTube https://youtu.be/DItO3AnD8pI
 
 <b>Season 2: Navigation, Room</b>
 
-task/020-input solution on YouTube https://youtu.be/7rRF6WB6Q5w
+task/020-input solution on YouTube https://youtu.be/7rRF6WB6Q5w ✔
 
-task/021-watch-input solution on YouTube https://youtu.be/nCjJ-oUWFj8
+task/021-watch-input solution on YouTube https://youtu.be/nCjJ-oUWFj8 ✔
 
-task/022-list solution on YouTube https://youtu.be/IY4_LycCNvY
+task/022-list solution on YouTube https://youtu.be/IY4_LycCNvY ✔
 
 task/023-recycler solution on YouTube https://youtu.be/0QOackU05SQ
 
