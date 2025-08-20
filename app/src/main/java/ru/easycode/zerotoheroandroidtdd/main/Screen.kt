@@ -7,7 +7,9 @@ interface Screen {
 
     fun show(supportFragmentManager: FragmentManager, containerId: Int)
 
-    abstract class Replace(private val fragmentClass: Class<out Fragment>) : Screen {
+    abstract class Replace(
+        private val fragmentClass: Class<out Fragment>
+    ) : Screen {
 
         override fun show(supportFragmentManager: FragmentManager, containerId: Int) {
             supportFragmentManager.beginTransaction()
@@ -16,7 +18,9 @@ interface Screen {
         }
     }
 
-    abstract class Add(private val fragmentClass: Class<out Fragment>) : Screen {
+    abstract class Add(
+        private val fragmentClass: Class<out Fragment>
+    ) : Screen {
 
         override fun show(supportFragmentManager: FragmentManager, containerId: Int) {
             supportFragmentManager.beginTransaction()
