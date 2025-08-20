@@ -18,10 +18,11 @@ class MainActivity : AppCompatActivity(), ProvideViewModel {
 
         viewModel = viewModel(MainViewModel::class.java)
 
+        viewModel.init(savedInstanceState == null)
+
         viewModel.liveData().observe(this) {
             it.show(supportFragmentManager, binding.container.id)
         }
-        viewModel.init(savedInstanceState == null)
     }
 
     override fun <T : ViewModel> viewModel(viewModelClass: Class<T>): T =
