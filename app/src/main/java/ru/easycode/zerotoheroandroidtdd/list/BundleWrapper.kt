@@ -14,15 +14,20 @@ interface BundleWrapper {
 
     interface Mutable : Save, Restore
 
-    class Base(private val bundle: Bundle) : Mutable {
+    class Base(
+        private val bundle: Bundle,
+    ) : Mutable {
+
         override fun save(list: ArrayList<CharSequence>) {
-            bundle.putCharSequenceArrayList("key", list)
+            bundle.putCharSequenceArrayList(KEY_BUNDLE, list)
         }
 
         override fun restore(): List<CharSequence> {
-            return bundle.getCharSequenceArrayList("key") ?: ArrayList()
+            return bundle.getCharSequenceArrayList(KEY_BUNDLE) ?: ArrayList()
         }
 
+        companion object {
+            private const val KEY_BUNDLE = "key_bundle"
+        }
     }
-
 }

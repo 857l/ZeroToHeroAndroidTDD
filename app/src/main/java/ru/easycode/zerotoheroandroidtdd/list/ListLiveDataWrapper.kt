@@ -21,18 +21,14 @@ interface ListLiveDataWrapper {
     class Base : LiveDataWrapper.Abstract<List<CharSequence>>(), All {
 
         override fun save(bundleWrapper: BundleWrapper.Save) {
-            liveData.value?.let {
-                bundleWrapper.save(ArrayList(it))
-            }
+            val list = liveData.value as ArrayList
+            bundleWrapper.save(list)
         }
 
         override fun add(source: CharSequence) {
-            val currentList = liveData.value ?: ArrayList()
-            val newList = ArrayList<CharSequence>()
-            newList.addAll(currentList)
-            newList.add(source)
-            update(newList)
+            val list = liveData.value?.toMutableList() ?: mutableListOf()
+            list.add(source)
+            update(list)
         }
-
     }
 }

@@ -12,7 +12,7 @@ interface ProvideViewModel {
     fun <T : ViewModel> viewModel(viewModelClass: Class<T>): T
 
     class Base(
-        private val clearViewModel: ClearViewModel
+        private val clearViewModel: ClearViewModel,
     ) : ProvideViewModel {
 
         private val navigation = Navigation.Base()
@@ -28,7 +28,7 @@ interface ProvideViewModel {
                     clearViewModel
                 )
 
-                else -> throw IllegalStateException("unknow viewModelClass $viewModelClass")
+                else -> throw IllegalStateException("Unknown viewModelClass $viewModelClass")
             } as T
         }
     }

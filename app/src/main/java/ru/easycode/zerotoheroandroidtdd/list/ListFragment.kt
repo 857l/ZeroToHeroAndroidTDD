@@ -4,9 +4,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import ru.easycode.zerotoheroandroidtdd.adapter.Adapter
 import ru.easycode.zerotoheroandroidtdd.core.AbstractFragment
 import ru.easycode.zerotoheroandroidtdd.core.ProvideViewModel
-import ru.easycode.zerotoheroandroidtdd.core.adapter.Adapter
 import ru.easycode.zerotoheroandroidtdd.databinding.FragmentListBinding
 
 class ListFragment : AbstractFragment<FragmentListBinding>() {
@@ -22,12 +22,12 @@ class ListFragment : AbstractFragment<FragmentListBinding>() {
 
         val viewModel = (activity as ProvideViewModel).viewModel(ListViewModel::class.java)
 
+        val adapter = Adapter()
+        binding.recyclerView.adapter = adapter
+
         binding.addButton.setOnClickListener {
             viewModel.create()
         }
-
-        val adapter = Adapter()
-        binding.recyclerView.adapter = adapter
 
         viewModel.liveData().observe(viewLifecycleOwner) {
             adapter.update(it)
@@ -42,5 +42,4 @@ class ListFragment : AbstractFragment<FragmentListBinding>() {
         super.onSaveInstanceState(outState)
         viewModel.save(BundleWrapper.Base(outState))
     }
-
 }
