@@ -53,11 +53,11 @@ task/021-watch-input solution on YouTube https://youtu.be/nCjJ-oUWFj8 ✔
 
 task/022-list solution on YouTube https://youtu.be/IY4_LycCNvY ✔
 
-task/023-recycler solution on YouTube https://youtu.be/0QOackU05SQ
+task/023-recycler solution on YouTube https://youtu.be/0QOackU05SQ ✔
 
-task/024-mvvm-recycler solution on YouTube https://youtu.be/rva0YlnzsK4
+task/024-mvvm-recycler solution on YouTube https://youtu.be/rva0YlnzsK4 ✔
 
-task/025-navigation solution on YouTube https://youtu.be/fsimJIE-pME https://youtu.be/mnl5eVI_iuA https://youtu.be/fmnIkZHdbWA
+task/025-navigation solution on YouTube https://youtu.be/fsimJIE-pME https://youtu.be/mnl5eVI_iuA https://youtu.be/fmnIkZHdbWA ✔
 
 task/026-room solution on YouTube https://youtu.be/hG-RhUfU98s
 
