@@ -11,15 +11,10 @@ interface Repository {
         private val url: String
     ) : Repository {
 
-        override suspend fun load(): LoadResult {
-            return try {
-                val result = service.fetch(url)
-                LoadResult.Success(SimpleResponse(result.text))
-            } catch (e: UnknownHostException) {
-                LoadResult.Error(true)
-            } catch (e: IllegalStateException) {
-                LoadResult.Error(false)
-            }
+        override suspend fun load(): LoadResult = try {
+            LoadResult.Success(service.fetch(url))
+        } catch (e: Exception) {
+            LoadResult.Error(e is UnknownHostException)
         }
     }
 }

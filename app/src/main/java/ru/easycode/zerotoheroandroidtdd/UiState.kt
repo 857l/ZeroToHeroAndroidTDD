@@ -8,20 +8,24 @@ import java.io.Serializable
 
 interface UiState : Serializable {
 
-    fun apply(button: Button, textView: TextView, progressBar: ProgressBar)
+    fun apply(
+        textView: TextView,
+        button: Button,
+        progressBar: ProgressBar
+    )
 
     object ShowProgress : UiState {
-
-        override fun apply(button: Button, textView: TextView, progressBar: ProgressBar) {
+        override fun apply(textView: TextView, button: Button, progressBar: ProgressBar) {
+            textView.visibility = View.GONE
             button.isEnabled = false
             progressBar.visibility = View.VISIBLE
-            textView.visibility = View.GONE
         }
     }
 
-    data class ShowData(private val text: String) : UiState {
-
-        override fun apply(button: Button, textView: TextView, progressBar: ProgressBar) {
+    data class ShowData(
+        private val text: String
+    ) : UiState {
+        override fun apply(textView: TextView, button: Button, progressBar: ProgressBar) {
             textView.visibility = View.VISIBLE
             textView.text = text
             button.isEnabled = true
