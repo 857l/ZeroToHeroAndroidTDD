@@ -1,6 +1,5 @@
 package ru.easycode.zerotoheroandroidtdd
 
-import androidx.lifecycle.LiveData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
@@ -13,7 +12,9 @@ import org.junit.Test
 
 /**
  * Please also check out the ui test
- * @see ru.easycode.zerotoheroandroidtdd.Task015Test
+ * @see ru.easycode.zerotoheroandroidtdd.Task019Test
+ *
+ * And other unit tests
  */
 class MainViewModelTest {
 
@@ -21,6 +22,7 @@ class MainViewModelTest {
     @Before
     fun setup() {
         Dispatchers.setMain(UnconfinedTestDispatcher())
+        initialize()
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
@@ -29,47 +31,73 @@ class MainViewModelTest {
         Dispatchers.resetMain()
     }
 
-    @Test
-    fun test() {
-        val repository = FakeRepository.Base()
-        val liveDataWrapper = FakeLiveDataWrapper.Base()
-        val viewModel = MainViewModel(
+    private lateinit var repository: FakeRepository
+    private lateinit var liveDataWrapper: FakeLiveDataWrapper
+    private lateinit var viewModel: MainViewModel
+
+    fun initialize() {
+        repository = FakeRepository.Base()
+        liveDataWrapper = FakeLiveDataWrapper.Base()
+        viewModel = MainViewModel(
             liveDataWrapper = liveDataWrapper,
             repository = repository
         )
+    }
+
+    @Test
+    fun test() {
+        repository.expectResult(LoadResult.Success(SimpleResponse(text = "testingText")))
+
         viewModel.load()
-        liveDataWrapper.checkUpdateCalls(listOf(UiState.ShowProgress, UiState.ShowData))
+        liveDataWrapper.checkUpdateCalls(
+            listOf(
+                UiState.ShowProgress,
+                UiState.ShowData(text = "testingText")
+            )
+        )
         repository.checkLoadCalledTimes(1)
+
+        val bundleWrapper: BundleWrapper.Mutable = FakeBundleWrapper.Base()
+        val bundleWrapperSave: BundleWrapper.Save = bundleWrapper
+        val bundleWrapperRestore: BundleWrapper.Restore = bundleWrapper
+
+        viewModel.save(bundleWrapper = bundleWrapperSave)
+
+        initialize()
+
+        viewModel.restore(bundleWrapper = bundleWrapperRestore)
+        liveDataWrapper.checkUpdateCalls(listOf(UiState.ShowData(text = "testingText")))
+        repository.checkLoadCalledTimes(0)
     }
 }
 
-private interface FakeLiveDataWrapper : LiveDataWrapper {
+private interface FakeBundleWrapper : BundleWrapper.Mutable {
 
-    fun checkUpdateCalls(expected: List<UiState>)
+    class Base : FakeBundleWrapper {
 
-    class Base : FakeLiveDataWrapper {
+        private var uiState: UiState? = null
 
-        private val actualCallsList = mutableListOf<UiState>()
-
-        override fun checkUpdateCalls(expected: List<UiState>) {
-            assertEquals(expected, actualCallsList)
+        override fun save(uiState: UiState) {
+            this.uiState = uiState
         }
 
-        override fun update(value: UiState) {
-            actualCallsList.add(value)
-        }
-
-        override fun liveData(): LiveData<UiState> {
-            throw IllegalStateException("not used in test")
-        }
+        override fun restore(): UiState = uiState!!
     }
 }
 
 private interface FakeRepository : Repository {
 
+    fun expectResult(result: LoadResult)
+
     fun checkLoadCalledTimes(times: Int)
 
     class Base : FakeRepository {
+
+        private lateinit var result: LoadResult
+
+        override fun expectResult(result: LoadResult) {
+            this.result = result
+        }
 
         private var actualCalledTimes: Int = 0
 
@@ -77,8 +105,9 @@ private interface FakeRepository : Repository {
             assertEquals(times, actualCalledTimes)
         }
 
-        override suspend fun load() {
+        override suspend fun load(): LoadResult {
             actualCalledTimes++
+            return result
         }
     }
 }
